@@ -44,7 +44,7 @@ stages:
       type: local
     steps:
     - TriggerStages:
-        stage_name:
+        stage_names:
         - docker-build
 
 # The docker-build stage will ensure that your images is built on every commit
@@ -54,6 +54,8 @@ stages:
     worker: &docker_worker
       type: kube_pod
       path: eve/workers/docker/pod.yaml
+      images:
+        worker: eve/workers/docker
     steps:
     - Git: *git
     - ShellCommand: *wait_docker_daemon

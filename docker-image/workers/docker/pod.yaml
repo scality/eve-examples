@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: build-worker
-      image: "{{ images.builder }}"
+      image: "{{ images.worker }}"
       resources:
         requests:
           cpu: "250m"
