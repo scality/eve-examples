@@ -64,7 +64,7 @@ stages:
         name: docker build
         command: >-
           docker build .
-          --tag=${DEVELOPMENT_DOCKER_IMAGE_NAME}:%(prop:revision)s
+          --tag=${DEVELOPMENT_DOCKER_IMAGE_NAME}:%(prop:commit_short_revision)s
         env: *docker_env
     - ShellCommand:
         name: push docker image into the development namespace
@@ -87,7 +87,10 @@ stages:
     - EvePropertyFromCommand:
         name: get tag short revision
         property: tag_revision
-        command: git rev-parse --short %(prop:tag)s
+        command: |
+          git checkout refs/tags/%(prop:tag)s 2&> /dev/null
+          git rev-parse --short HEAD
+        haltOnFailure: true
     - ShellCommand:
         name: publish docker image to Scality Production OCI registry
         command: |
