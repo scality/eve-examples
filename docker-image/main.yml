@@ -79,6 +79,13 @@ stages:
 #    * Use the release stage
 #    * Extra property named tag with the value of the name of the tag itself.
   release:
+    worker:
+      type: local
+    steps:
+    - TriggerStages:
+        stage_names:
+        - docker-release
+  docker-release:
     worker: *docker_worker
     steps:
     - Git: *git
