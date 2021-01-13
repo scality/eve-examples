@@ -66,9 +66,11 @@ stages:
           docker build .
           --tag=${DEVELOPMENT_DOCKER_IMAGE_NAME}:%(prop:commit_short_revision)s
         env: *docker_env
+        haltOnFailure: true
     - ShellCommand:
         name: push docker image into the development namespace
         command: docker push ${DEVELOPMENT_DOCKER_IMAGE_NAME}
+        haltOnFailure: true
         env: *docker_env
 
 # This stage can be used to release your docker image.
@@ -85,6 +87,7 @@ stages:
     - TriggerStages:
         stage_names:
         - docker-release
+        haltOnFailure: true
   docker-release:
     worker: *docker_worker
     steps:
